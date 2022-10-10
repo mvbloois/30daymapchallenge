@@ -1,0 +1,74 @@
+---
+title: "01_Points"
+author: "Martijn van Bloois"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(osmdata)
+library(ggplot2)
+library(stringr)
+library(showtext)
+``` 
+
+``` {r}
+# fonts
+font_add_google(name = "Noto Serif", family = "font")
+showtext_opts(dpi = 300)
+showtext_auto(enable = TRUE)
+``` 
+
+``` {r}
+b_box <- matrix(c(-13.27,38.0,35.21,71.55),
+                byrow = TRUE,
+                nrow = 2, ncol = 2,
+                dimnames = list(c('x','y'),c('min','max')))
+
+railway_stations <- b_box %>%
+  opq(timeout = 999) %>%
+  add_osm_feature(key = "railway",
+                   value = "station") %>%
+  osmdata_sf()
+
+# readr::write_rds(railway_stations,
+#                  here::here("data", "railway_stations.rds"), 
+#                  compress = "gz")
+
+# railway_stations <- readr::read_rds(here::here("data", "railway_stations.rds"))
+``` 
+
+``` {r, fig.height=10, fig.width=10}
+ggplot() +
+  geom_sf(data = railway_stations$osm_point,
+          colour = "#7FD8BE",
+          size = 0.1) +
+  labs(title = "TRAIN STATIONS IN EUROPE",
+       subtitle = "#30daymapchallenge",
+       caption = "@prancke | © OpenStreetMap contributors") +
+  theme_void() +
+  theme(
+    text = element_text(family = "font",
+                        colour = "#7FD8BE"),
+    plot.title = element_text(size = 36,
+                              hjust = 0.5),
+    plot.title.position = "plot",
+    plot.subtitle = element_text(size = 20,
+                                 hjust = 0.5),
+    plot.caption = element_text(size = 16,
+                                hjust = 0.5),
+    plot.background = element_rect(fill = "grey5", colour = "grey5")
+  ) +
+  coord_sf(default_crs = sf::st_crs(4326))
+``` 
+
+```{r}
+ggsave(here::here("maps", "01_Points.png"),
+      width = 10, height = 10, dpi = 300,
+      device = "png")
+```
+
