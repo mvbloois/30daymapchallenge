@@ -1,0 +1,91 @@
+---
+title: "02_Lines"
+author: "Martijn van Bloois"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+```
+
+```{r}
+tbl <- tribble(
+  ~station, ~x, ~y, ~line,
+  "Freiburg (Breisgau) Hbf", 7, 18, "A",
+  "Freiburg Klinikum", 7, 17, "A",
+  "Freiburg Messe/Universität", 7, 16, "A",
+  "Freiburg-Landwasser", 7, 15, "A",
+  "Hugstetten", 7, 14, "A",
+  "Gottenheim", 7, 13, "A",
+  "Bötzingen", 5, 10, "E",
+  "Bötzingen Mühle", 5, 9, "E",
+  "Eichstetten am Kaiserstuhl", 5, 8, "E",
+  "Nimburg (Baden)", 5, 7, "E",
+  "Bahlingen Riedlen", 5, 6, "E",
+  "Bahlingen am Kaiserstuhl", 5, 5, "E",
+  "Riegel am Kaiserstuhl", 5, 4, "E",
+  "Endingen am Kaiserstuhl (S1 E)", 5, 3, "E",
+  "Wasenweiler", 9, 10, "B",
+  "Ihringen", 9, 9, "B",
+  "Breisach (S1 B)", 9, 8, "B"
+) 
+```
+
+```{r, dpi = 300, fig.height=8, fig.width=7}
+ggplot(tbl, aes(x = x, y = y)) +
+  geom_line(aes(group = line)) +
+  geom_segment(aes(x = 9, xend = 7, y = 10, yend = 13),
+               size = 0.2,
+               inherit.aes = FALSE) +
+  geom_segment(aes(x = 5, xend = 7, y = 10, yend = 13),
+               size = 0.2,
+               inherit.aes = FALSE) +
+  geom_point(size = 5, fill = "#FFD500", shape = 21) +
+  geom_text(aes(x = x + 0.2, label = station),
+            family = "Helvetica",
+            hjust = "left",
+            size = 5.5,
+            fontface = "italic") +
+  geom_text(aes(x = 7, y = 12, label = "Zugteilung"),
+            family = "Helvetica",
+            fontface = "italic",
+            inherit.aes = FALSE) +
+  geom_text(aes(x = 5.6, y = 2, label = "Breisach"),
+            family = "Helvetica",
+            fontface = "italic",
+            inherit.aes = FALSE) +
+  geom_text(aes(x = 8.9, y = 5.5, label = "Endingen - Riegel,\nBad Krozingen (Regiobus)\nColmar/Frankreich (Euregiobus)"),
+            family = "Helvetica",
+            hjust = "left",
+            fontface = "italic",
+            inherit.aes = FALSE) +
+  geom_segment(aes(x = 5.1, xend = 5.2, y = 2.5, yend = 2.1),
+               arrow = arrow(length = unit(5, "points")),
+               linetype = "dotted",
+               size = 0.2,
+               inherit.aes = FALSE) +
+  geom_segment(aes(x = 9, xend = 9, y = 7.3, yend = 6.6),
+               arrow = arrow(length = unit(5, "points")),
+               linetype = "dashed",
+               size = 0.2,
+               inherit.aes = FALSE) +
+  scale_x_continuous(limits = c(4,12)) +
+  scale_y_continuous(limits = c(2,NA)) +
+  labs(title = "#30daymapchallenge 2022 - day 2: Lines",
+       caption = "@martijnvanbloois@fosstogon.org") +
+  theme_void() +
+  theme(
+    text = element_text(family = "Helvetica", face = "italic"),
+    plot.title = element_text(size = 20, hjust = 0.5)
+  )
+```
+```{r}
+ggsave(here::here("maps", "02_Lines.png"),
+      width = 8, height = 7, dpi = 300, bg = "white",
+      device = "png")
+```
