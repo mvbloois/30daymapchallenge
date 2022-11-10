@@ -61,4 +61,4 @@ data %>%
                                     hjust = 1)
   )
 
-ggsave("maps/04_Green.png", height = 6, width = 6, bg = "white")
+ggsave("./2022/04_Green.png", height = 6, width = 6, bg = "white")

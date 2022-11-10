@@ -85,7 +85,7 @@ ggplot(tbl, aes(x = x, y = y)) +
   )
 ```
 ```{r}
-ggsave(here::here("maps", "02_Lines.png"),
+ggsave(here::here("2022", "02_Lines.png"),
       width = 8, height = 7, dpi = 300, bg = "white",
       device = "png")
 ```

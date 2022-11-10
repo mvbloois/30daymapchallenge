@@ -67,7 +67,7 @@ ggplot() +
 ``` 
 
 ```{r}
-ggsave(here::here("maps", "01_Points.png"),
+ggsave(here::here("2022", "01_Points.png"),
       width = 10, height = 10, dpi = 300,
       device = "png")
 ```
