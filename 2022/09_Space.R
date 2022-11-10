@@ -1,15 +1,6 @@
 
 ## Tidytuesday Radio Stations / 30DayMapChallenge Space  
 
-topic <- "Radio-Stations"
-year <- 2022
-week <- 45
-yrwk <- glue::glue("{year}-{week}")
-plots_dir <- paste0(year, "-", week)
-fs::dir_create(here::here("plots", plots_dir))
-png_file <- glue::glue("{yrwk}_{topic}.png")
-pdf_file <- glue::glue("{yrwk}_{topic}.pdf")
-
 suppressMessages(library(tidyverse))
 library(showtext)
 library(sf)
@@ -18,12 +9,16 @@ font_add_google(name = "Space Grotesk", family = "font")
 showtext_opts(dpi = 300)
 showtext_auto(enable = TRUE)
 
+options(timeout = max(300, getOption("timeout")))
+download.file("ftp://ftp.fcc.gov/pub/Bureaus/MB/Databases/fm_service_contour_data/FM_service_contour_current.zip",
+              destfile = "2022/FM_service_contour_current.zip",
+              mode = "wb")
 
+raw_contour <- read_delim(
+ "./2022/FM_service_contour_current.zip",
+ delim = "|"
+)
 
-# raw_contour <- read_delim(
-#   "./data/FM_service_contour_current.txt",
-#   delim = "|"
-# )
 conv_contour <- raw_contour |>
   select(-last_col()) |>
   set_names(nm = c(
@@ -66,3 +61,5 @@ conv_contour %>%
 ggsave(here::here("2022", "09_Space.png"),
        width = 6, height = 5, dpi = 300, bg = "black",
        device = "png")
+
+fs::file_delete("./2022/FM_service_contour_current.zip")
