@@ -1,4 +1,4 @@
-# #30daymapchallenge2022
+# #30daymapchallenge
 
 My contributions to the ![#30daymapchallenge2022](https://30daymapchallenge.com/).
 
