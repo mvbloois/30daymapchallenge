@@ -86,7 +86,7 @@ ggplot() +
                                        colour = "#FCF5E5")
   )
 
-ggsave(paste0("./maps/08_OpenStreetMap.png"),
+ggsave(paste0("./2022/08_OpenStreetMap.png"),
        map,
        width = 6, height = 6, dpi = 300,
        device = "png")
